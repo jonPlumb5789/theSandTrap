@@ -1,6 +1,6 @@
 // src/components/About.js
 import React from 'react';
-import { Box, Typography, Divider, Button } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 const About = () => (
   <Box

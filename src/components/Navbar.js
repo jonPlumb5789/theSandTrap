@@ -13,7 +13,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import CloseIcon from '@mui/icons-material/Close';
-import logo from './the_sandtrap_logo.png';
 
 const navItems = [
   { label: 'Home', section: 'home' },

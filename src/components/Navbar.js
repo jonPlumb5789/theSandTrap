@@ -40,7 +40,6 @@ function Navbar() {
   return (
     <AppBar position="fixed" sx={{ backgroundColor: '#333' }}>
       <Toolbar>
-        <Box component="img" src={logo} alt="The Sandtrap Logo" sx={{ height: 60, mr: 2, padding: '8px' }} />
         <Typography variant="h6" sx={{ flexGrow: 1, fontFamily: 'Georgia, serif', fontSize: '1.5rem', marginLeft: '6px' }}>
           The Sandtrap
         </Typography>

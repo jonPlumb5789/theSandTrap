@@ -1,19 +1,59 @@
 // src/App.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import SignIn from './components/SignIn';
 import Menu from './components/Menu';
 import MapComponent from './components/Map';
 import About from './components/About';
 import ContactInfo from './components/ContactInfo';
-import { Box, Container, Typography, Divider } from '@mui/material';
+import { Box, Container, Typography, Divider, Button, CssBaseline } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import logo from './components/the_sandtrap_logo.png';
-import background from './components/sandtrapFront.jpg'; // Import the background image
+import background from './components/sandtrapFront.jpg';
 
-const App = () => (
-  <Box sx={{ fontFamily: 'Georgia, serif', color: '#4b4b4b', backgroundColor: '#f9f9f9' }}>
+// Custom theme for admin mode
+const adminTheme = createTheme({
+  palette: {
+    background: {
+      default: '#333',
+    },
+    text: {
+      primary: '#ffffff',
+      secondary: '#cccccc',
+    },
+  },
+});
+
+const publicTheme = createTheme({
+  palette: {
+    background: {
+      default: '#f9f9f9',
+    },
+    text: {
+      primary: '#4b4b4b',
+      secondary: '#2f4f4f',
+    },
+  },
+});
+
+// Main page layout with all components
+const MainPage = ({ isAuthenticated, onLogout }) => (
+  <Box sx={{ fontFamily: 'Georgia, serif', color: isAuthenticated ? 'black' : '#4b4b4b', backgroundColor: isAuthenticated ? '#333' : '#f9f9f9' }}>
     <Navbar />
     
-    {/* Hero Section with Sliding Background */}
+    {/* Admin View Banner and Logout Button */}
+    <Box sx={{ backgroundColor: isAuthenticated ? '#444' : '#eeeeee', color: isAuthenticated ? '#fff' : '#4b4b4b', py: 2, textAlign: 'center', marginTop: isAuthenticated ? '10vh' : '' }}>
+      <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+        {isAuthenticated ? "ADMIN VIEW" : ""}
+      </Typography>
+      {isAuthenticated && (
+        <Button variant="contained" color="secondary" onClick={onLogout} sx={{ mt: 1 }}>
+          Logout
+        </Button>
+      )}
+    </Box>
+
     <Box
       className="hero-section"
       sx={{
@@ -23,18 +63,14 @@ const App = () => (
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'center',
-        color: '#fff',
+        color: 'black',
         overflow: 'hidden',
-        backgroundImage: `url(${background})`, // Set background image here
+        backgroundImage: `url(${background})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        animation: 'slideBackground 20s ease-in-out infinite',
       }}
     >
-      {/* Overlay */}
       <Box sx={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0, 0, 0, 0.5)' }}></Box>
-      
-      {/* Logo and Overlay Text */}
       <Box sx={{ position: 'relative', zIndex: 1, px: 2 }}>
         <Box
           component="img"
@@ -60,22 +96,76 @@ const App = () => (
 
     <Container maxWidth="md" sx={{ mt: 4, mb: 8 }}>
       <section id="menu">
-        <Menu />
+        <Menu isAuthenticated={isAuthenticated} />
       </section>
-      <Divider sx={{ my: 4 }} />
+      <Divider sx={{ my: 4, borderColor: isAuthenticated ? '#777' : '#ccc' }} />
 
       <section id="about">
         <About />
       </section>
-      <Divider sx={{ my: 4 }} />
+      <Divider sx={{ my: 4, borderColor: isAuthenticated ? '#777' : '#ccc' }} />
 
-      <section id="map"> 
+      <section id="map">
         <MapComponent />
-        <Divider sx={{ my: 4 }} />
+        <Divider sx={{ my: 4, borderColor: isAuthenticated ? '#777' : '#ccc' }} />
         <ContactInfo />
       </section>
     </Container>
   </Box>
 );
+
+// Login page layout with Navbar and SignIn
+const LoginPage = ({ setIsAuthenticated }) => {
+  const navigate = useNavigate();
+
+  const handleLoginSuccess = () => {
+    setIsAuthenticated(true);
+    navigate("/"); // Redirect to main page after successful login
+  };
+
+  return (
+    <Box>
+      <Navbar />
+      <SignIn onLoginSuccess={handleLoginSuccess} />
+    </Box>
+  );
+};
+
+// App component with routing and authentication handling
+const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // Check if the token exists in local storage on initial load
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  // Handle logout by clearing token and setting isAuthenticated to false
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setIsAuthenticated(false);
+  };
+
+  return (
+    <ThemeProvider theme={isAuthenticated ? adminTheme : publicTheme}>
+      <CssBaseline />
+      <Router>
+        <Routes>
+          <Route
+            path="/"
+            element={<MainPage isAuthenticated={isAuthenticated} onLogout={handleLogout} />}
+          />
+          <Route
+            path="/managerlogin"
+            element={isAuthenticated ? <Navigate to="/" /> : <LoginPage setIsAuthenticated={setIsAuthenticated} />}
+          />
+        </Routes>
+      </Router>
+    </ThemeProvider>
+  );
+};
 
 export default App;

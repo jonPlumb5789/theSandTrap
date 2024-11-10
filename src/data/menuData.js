@@ -460,6 +460,58 @@ const menuData = {
     { name: "Slider with Fries", price: "$7" },
     { name: "Cheese Quesadilla", price: "$7" },
   ],
+  "SundayBrunch": [
+    {
+      "name": "Breakfast Tacos",
+      "description": "Bacon, egg, avocado, cheese, trap sauce. Served with choice of American Potatoes or side of fruit.",
+      "price": "$12"
+    },
+    {
+      "name": "Bacon & Egg Croissant",
+      "description": "Bacon, eggs, cheddar, arugula. Served with choice of American Potatoes or side of fruit.",
+      "price": "$11"
+    },
+    {
+      "name": "Sausage & Cheese Burrito",
+      "description": "Egg, cheddar cheese, spinach, bell peppers, onions, sausage. Served with choice of American Potatoes or side of fruit.",
+      "price": "$12"
+    },
+    {
+      "name": "Goat Cheese Frittata",
+      "description": "Egg, goat cheese, sundried tomatoes, zucchini, onions. Served with choice of American Potatoes or side of fruit.",
+      "price": "$13"
+    },
+    {
+      "name": "SandTrap Special",
+      "description": "3 eggs any style, choice of 2 breakfast meats, served with American potatoes or side of fruit.",
+      "price": "$12"
+    },
+    {
+      "name": "Chicken & Waffles",
+      "description": "Hand battered fried chicken, hot honey, candied jalapeños. Served with sausage gravy.",
+      "price": "$14"
+    },
+    {
+      "name": "Berry Blast Waffle",
+      "description": "Mix berries, almonds, powder sugar, topped with whipped cream. Add Bacon, Sausage or Ham +$3",
+      "price": "$10"
+    },
+    {
+      "name": "Chicken Salad Croissant",
+      "description": "Arugula, chicken salad, cherries, cheddar cheese. Served with choice of American Potatoes or side of fruit.",
+      "price": "$12"
+    },
+    {
+      "name": "Adult Brunch Buffet",
+      "price": "$24"
+    },
+    {
+      "name": "Child Brunch Buffet",
+      "description": "(Guests aged 10 and under please)",
+      "price": "$14"
+    }
+  ]
+  
 };
 
 export default menuData;
